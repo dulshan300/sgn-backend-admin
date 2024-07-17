@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+
+
+@layer components {
+
+    .btn {
+        @apply w-full px-4 py-2
+    }
+
+    .btn-primary {
+        @apply text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none disabled:bg-gray-300
+    }
+
+    .btn-danger{
+        @apply text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none disabled:bg-gray-300
+    }
+
+    .card {
+        @apply bg-white rounded-md shadow-md p-4
+    }
+
+    .table{
+        @apply inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg
+    }
+
+    .table table{
+        @apply min-w-full
+    }
+
+    .table table th{
+        @apply px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50
+    }
+
+    .table table tbody{
+        @apply bg-white
+    }
+
+    .table table tbody td{
+        @apply px-6 py-4 whitespace-nowrap border-b border-gray-200
+    }
+
+    .card-title {
+        @apply text-xl font-bold capitalize text-purple-900
+    }
+
+    .form-input {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+
+    .textarea{
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+
+    .fg{
+        @apply flex flex-col gap-2 w-full
+    }
+}
+
+@layer utilities {
+    .event_pulse {
+        background: linear-gradient(91deg, #0e9673, #ffffff);
+        background-size: 400% 400%;
+
+        -webkit-animation: AnimationName 5s ease infinite;
+        -moz-animation: AnimationName 5s ease infinite;
+        -o-animation: AnimationName 5s ease infinite;
+        animation: AnimationName 5s ease infinite;
+    }
+}
+
+@-webkit-keyframes AnimationName {
+    0% {
+        background-position: 0% 50%;
+
+    }
+    50% {
+        background-position: 100% 51%
+
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes AnimationName {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 51%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-o-keyframes AnimationName {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 51%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 51%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
