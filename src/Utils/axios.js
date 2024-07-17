@@ -22,7 +22,7 @@ api.interceptors.request.use(config => {
 
     const configStore = useConfigStore();
     if (!configStore.isLoading) {
-        configStore.setLoading(true);
+        configStore.isLoading = true;
     }
 
     return config;
@@ -31,14 +31,19 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
     response => {
         const configStore = useConfigStore();
-        configStore.setLoading(false);
+        configStore.isLoading = false;
 
         return response
     },
     error => {
 
         const configStore = useConfigStore();
-        configStore.setLoading(false);
+        const auth = useAuthStore();
+        configStore.isLoading = false;
+
+        if(error.code === "ERR_NETWORK") {
+            auth.logout();
+        }
 
         if (error.response?.status === 429) {
             const toast = useToast();
