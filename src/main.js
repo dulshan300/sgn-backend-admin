@@ -16,8 +16,6 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
-
-
 app.use(Toast, options);
 
 app.use(pinia)

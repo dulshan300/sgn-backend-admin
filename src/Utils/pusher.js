@@ -1,8 +1,8 @@
-import PusherJS from 'pusher-js'
+import Pusher from 'pusher'
 
-PusherJS.logToConsole = true;
+Pusher.logToConsole = true;
 
-let pusher = new PusherJS( import.meta.env.VITE_PUSHER_APP_KEY, {   
+let pusher = new Pusher( import.meta.env.VITE_PUSHER_APP_KEY, {   
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
 });
 
