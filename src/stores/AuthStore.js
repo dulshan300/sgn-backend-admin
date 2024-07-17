@@ -19,9 +19,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
 
         } catch (err) {
             // if error is 401 logout
-            if (err.response?.status === 401) {
-                logout();
-            }
+            logout();
         }
 
 
