@@ -42,7 +42,7 @@ api.interceptors.response.use(
         configStore.isLoading = false;
 
         if(error.code === "ERR_NETWORK") {
-            auth.logout();
+            // auth.logout();
         }
 
         if (error.response?.status === 429) {

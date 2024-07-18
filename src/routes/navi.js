@@ -29,7 +29,7 @@ export default [
         path: '/ice-cream-quiz',
         name: 'ice-cream-quiz',
         meta: {title: "Ice cream Quiz", icon: RiWindowFill},
-        component: () => import('../pages/TriviaQuiz.vue')
+        component: () => import('../pages/IceCreamQuiz.vue')
     },
     {
         path: '/colouring',

@@ -45,6 +45,14 @@ export const validation_errors_process = (er) => {
     return error_bag;
 }
 
+export const limit_text = (text, limit=50) => {
+    if (text.length > limit) {
+        return text.substring(0, limit) + '...';
+    } else {
+        return text;
+    }
+}
+
 export const cloneObj = (obj) => {
     return JSON.parse(JSON.stringify(obj))
 }
