@@ -30,7 +30,29 @@
 
       </Card>
 
-      <div class="dummy"></div>
+      <card title="Fitness Corner">
+
+        <div class="grid grid-cols-2 gap-3">
+          <label>Comming Soon</label>
+          <Toggle v-model:checked="fc_coming_soon"/>
+
+          <label>Browse Videos</label>
+          <Toggle v-model:checked="fc_browse_videos"/>
+
+        </div>
+
+      </card>
+
+      <card title="Roof Top">
+
+        <div class="grid grid-cols-2 gap-3">
+          <label>Comming Soon</label>
+          <Toggle v-model:checked="rf_coming_soon"/>
+
+        </div>
+
+      </card>
+
       <div class="dummy"></div>
       <div class="dummy"></div>
 
@@ -63,6 +85,7 @@ import {RiDeleteBin6Line} from "@remixicon/vue";
 import {onMounted, ref, watch} from "vue";
 import api from "../Utils/axios.js";
 import {get_settings, save_settings} from "../Utils/helper.js";
+import Toggle from "../components/Toggle.vue";
 
 const multi_language = ref([]);
 const lang = ref("");
@@ -77,12 +100,41 @@ const add_language = () => {
 
 }
 
+const fc_coming_soon = ref(false);
+const fc_browse_videos = ref(false);
+
+watch(fc_browse_videos, () => {
+  console.log(fc_browse_videos.value);
+  save_settings([
+    {fc_browse_videos: fc_browse_videos.value}
+  ])
+});
+
+watch(fc_coming_soon, () => {
+  console.log(fc_coming_soon.value);
+  save_settings([
+    {fc_coming_soon: fc_coming_soon.value}
+  ])
+});
+
+
+const rf_coming_soon = ref(false);
+watch(rf_coming_soon, () => {
+  console.log(rf_coming_soon.value);
+  save_settings([
+    {rf_coming_soon: rf_coming_soon.value}
+  ])
+});
+
 onMounted(async () => {
 
-  const res = await get_settings(['languages']);
+  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon']);
 
   if (res.languages) {
     multi_language.value = res.languages
+    fc_coming_soon.value = res.fc_coming_soon
+    fc_browse_videos.value = res.fc_browse_videos
+    rf_coming_soon.value = res.rf_coming_soon
   }
 
 })
