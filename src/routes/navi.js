@@ -12,6 +12,11 @@ export default [
         name: 'chat-approval',
         meta: {title: "Chat Approval", icon: RiWindowFill},
         component: () => import('../pages/ChatApproval.vue')
+    }, {
+        path: '/message-approval',
+        name: 'message-approval',
+        meta: {title: "Message Approval", icon: RiWindowFill},
+        component: () => import('../pages/MessageApproval.vue')
     },
     {
         path: '/roof-top-settings',
@@ -38,7 +43,7 @@ export default [
         component: () => import('../pages/Colouring.vue')
     },
 
-     {
+    {
         path: '/mama-shop',
         name: 'mama-shop',
         meta: {title: "Mama shop", icon: RiWindowFill},

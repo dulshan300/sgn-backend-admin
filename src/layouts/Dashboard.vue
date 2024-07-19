@@ -59,6 +59,9 @@ onMounted(async () => {
     configStore.channel.bind('new-chat-pending', (data) => {
       toast.info(`New chat approval request`)
     })
+    configStore.channel.bind('new-message-pending', (data) => {
+      toast.info(`New Message approval request`)
+    })
   }
 
 
