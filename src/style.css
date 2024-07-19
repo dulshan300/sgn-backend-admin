@@ -53,7 +53,7 @@
     }
 
     .card-title {
-        @apply text-xl font-bold capitalize text-purple-900
+        @apply text-xl font-bold capitalize text-purple-900 flex mb-3
     }
 
     .form-input {

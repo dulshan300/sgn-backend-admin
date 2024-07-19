@@ -12,11 +12,10 @@ defineProps({
 
 <template>
   <div class="card w-full">
+    <div class="card-body ">
       <span v-if="title.length>0" class="card-title">
         {{ title }}
       </span>
-
-    <div class="card-body mt-5">
       <slot></slot>
     </div>
   </div>

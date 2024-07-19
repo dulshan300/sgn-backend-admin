@@ -30,9 +30,18 @@
 
       </Card>
 
-      <card title="Fitness Corner">
+      <card>
 
-        <div class="grid grid-cols-2 gap-3">
+        <span class="card-title">Roof Top</span>
+
+        <div class="grid grid-cols-2 gap-3 mb-5">
+          <label>Comming Soon</label>
+          <Toggle v-model:checked="rf_coming_soon"/>
+
+        </div>
+
+        <span class="card-title">Fitness Corner</span>
+        <div class="grid grid-cols-2 gap-3 mb-5">
           <label>Comming Soon</label>
           <Toggle v-model:checked="fc_coming_soon"/>
 
@@ -41,17 +50,19 @@
 
         </div>
 
-      </card>
-
-      <card title="Roof Top">
-
+        <span class="card-title">Pass the Remote</span>
         <div class="grid grid-cols-2 gap-3">
-          <label>Comming Soon</label>
-          <Toggle v-model:checked="rf_coming_soon"/>
+          <label>Hostspot Visibility</label>
+          <Toggle v-model:checked="pr_is_visible"/>
 
         </div>
 
+
       </card>
+
+
+
+
 
       <div class="dummy"></div>
       <div class="dummy"></div>
@@ -126,15 +137,24 @@ watch(rf_coming_soon, () => {
   ])
 });
 
+const pr_is_visible = ref(false);
+watch(pr_is_visible, () => {
+  console.log(pr_is_visible.value);
+  save_settings([
+    {pr_is_visible: pr_is_visible.value}
+  ])
+});
+
 onMounted(async () => {
 
-  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon']);
+  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon','pr_is_visible']);
 
   if (res.languages) {
     multi_language.value = res.languages
     fc_coming_soon.value = res.fc_coming_soon
     fc_browse_videos.value = res.fc_browse_videos
     rf_coming_soon.value = res.rf_coming_soon
+    pr_is_visible.value = res.pr_is_visible
   }
 
 })
