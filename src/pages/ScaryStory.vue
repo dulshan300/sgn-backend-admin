@@ -40,7 +40,11 @@
 
       <form @submit.prevent="handle_submission" class="flex gap-10">
 
-        <div class="poster w-[200px] bg-top bg-contain bg-no-repeat" :style="{backgroundImage: `url(${poster})`}"></div>
+        <div class="">
+          <div class="poster w-[200px] h-[300px] bg-top bg-contain bg-no-repeat" :style="{backgroundImage: `url(${poster})`}"></div>
+          <a class="flex justify-center p-2 mt-5 bg-sky-400/50 " :href="img_src(scaryModal.meta.pdf)" target="_blank">View pdf</a>
+        </div>
+
         <div class="form flex-1 flex flex-col gap-5">
 
           <div class="fg">
