@@ -5,7 +5,7 @@
         class="fixed inset-0 z-40 flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto bg-gray-800 bg-opacity-75"
 
     >
-      <div class="relative w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
+      <div class="relative max-h-[80vh] overflow-y-auto w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
         <button
             class="absolute top-0 right-0 p-2 text-gray-700 hover:text-gray-900"
             @click="closeModal"

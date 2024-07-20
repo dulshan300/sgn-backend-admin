@@ -37,6 +37,25 @@ export default [
         component: () => import('../pages/IceCreamQuiz.vue')
     },
     {
+        path: '/cook',
+        name: 'cook',
+        meta: {title: "Cook Like Mak", icon: RiWindowFill},
+        component: () => import('../pages/cook.vue')
+    },
+    {
+        path: '/cook/:id/videos',
+        name: 'cooking-videos',
+        meta: {title: "Cook Like Mak | Videos", icon: RiWindowFill},
+        component: () => import('../pages/cook-videos.vue'),
+        sub:true
+    },{
+        path: '/cook/:id/recipes',
+        name: 'cooking-recipes',
+        meta: {title: "Cook Like Mak | Recipes", icon: RiWindowFill},
+        component: () => import('../pages/cook-recipes.vue'),
+        sub:true
+    },
+    {
         path: '/colouring',
         name: 'colouring',
         meta: {title: "Colouring", icon: RiWindowFill},

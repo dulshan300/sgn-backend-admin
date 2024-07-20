@@ -17,6 +17,7 @@
 
           <div v-if="i.published" class="bg-green-600 px-2 py-1 text-white text-xs absolute top-0 right-0">Published
           </div>
+
           <div v-if="!i.published" class="bg-orange-600 px-2 py-1 text-white text-xs absolute top-0 right-0">Draft</div>
 
 

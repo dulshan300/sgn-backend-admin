@@ -18,7 +18,11 @@
 
       <template v-for="link in navi">
 
-        <router-link :to="link.path"
+        <template v-if="link.sub">
+
+        </template>
+
+        <router-link v-else :to="link.path"
                      class="flex items-center px-6 py-4 mt-1 text-gray-100 hover:bg-gray-600 hover:bg-opacity-25"
                      :class="route.path === link.path ? 'bg-gray-600 bg-opacity-25' : ''"
         >
