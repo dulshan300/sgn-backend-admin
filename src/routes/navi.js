@@ -42,6 +42,12 @@ export default [
         meta: {title: "Colouring", icon: RiWindowFill},
         component: () => import('../pages/Colouring.vue')
     },
+    {
+        path: '/scary-story',
+        name: 'Scary Story',
+        meta: {title: "Scary Story", icon: RiWindowFill},
+        component: () => import('../pages/ScaryStory.vue')
+    },
 
     {
         path: '/mama-shop',

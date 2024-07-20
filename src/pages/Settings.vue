@@ -42,7 +42,7 @@
 
         <span class="card-title">Fitness Corner</span>
         <div class="grid grid-cols-2 gap-3 mb-5">
-          <label>Comming Soon</label>
+          <label>Coming Soon</label>
           <Toggle v-model:checked="fc_coming_soon"/>
 
           <label>Browse Videos</label>
@@ -52,11 +52,22 @@
 
         <span class="card-title">Pass the Remote</span>
         <div class="grid grid-cols-2 gap-3">
-          <label>Hostspot Visibility</label>
+          <label>Hotspot Visibility</label>
           <Toggle v-model:checked="pr_is_visible"/>
 
         </div>
 
+
+      </card>
+
+      <card>
+
+        <span class="card-title">Scary Story</span>
+        <div class="grid grid-cols-2 gap-3">
+          <label>Content Available</label>
+          <Toggle v-model:checked="ss_is_visible"/>
+
+        </div>
 
       </card>
 
@@ -145,9 +156,17 @@ watch(pr_is_visible, () => {
   ])
 });
 
+const ss_is_visible = ref(false);
+watch(ss_is_visible, () => {
+  console.log(ss_is_visible.value);
+  save_settings([
+    {ss_is_visible: ss_is_visible.value}
+  ])
+});
+
 onMounted(async () => {
 
-  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon','pr_is_visible']);
+  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon','pr_is_visible','ss_is_visible']);
 
   if (res.languages) {
     multi_language.value = res.languages

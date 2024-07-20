@@ -45,7 +45,7 @@ export const validation_errors_process = (er) => {
     return error_bag;
 }
 
-export const limit_text = (text, limit=50) => {
+export const limit_text = (text, limit = 50) => {
     if (text.length > limit) {
         return text.substring(0, limit) + '...';
     } else {
@@ -55,4 +55,8 @@ export const limit_text = (text, limit=50) => {
 
 export const cloneObj = (obj) => {
     return JSON.parse(JSON.stringify(obj))
+}
+
+export const img_src = (img) => {
+    return import.meta.env.VITE_API_HOST + img;
 }
