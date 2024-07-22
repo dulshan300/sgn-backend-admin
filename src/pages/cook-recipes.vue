@@ -70,6 +70,9 @@
           <label class="fg-label">PDF</label>
           <input @change="handlePdf" class="form-input" type="file">
           <input-error :errors="error_bag" field="pdf"/>
+
+          <a v-if="selected_recipe" class="text-sm text-blue-500 bg-blue-100 p-2 rounded text-center"
+             :href="img_src(model.meta.pdf)">View PDF</a>
         </div>
 
         <div class="fg">
@@ -109,7 +112,7 @@
 
 
       <div class="flex justify-between gap-3 mt-10">
-        <button v-if="selected_video" @click="handle_remove" class="btn btn-danger">Remove</button>
+        <button v-if="selected_recipe" @click="handle_remove" class="btn btn-danger">Remove</button>
         <button @click="handle_submit" class="btn btn-primary">Save</button>
       </div>
 
@@ -197,7 +200,7 @@ const openModal = (id) => {
     const c = recipes.value.find(v => v._id === id);
 
     model.value = c;
-    selected_video.value = c._id;
+    selected_recipe.value = c._id;
   }
 
   show_add_chef.value = true;
@@ -206,6 +209,7 @@ const closeModal = () => {
   error_bag.value = {};
   show_add_chef.value = false;
   model.value = cloneObj(_defaultModal);
+  selected_recipe.value = null;
 
 };
 
@@ -241,7 +245,7 @@ const method_editor_content_chagned = (delta, oldDelta, source) => {
   model.value.meta.method[lang.value] = method_editor.value.getHTML();
 }
 
-const selected_video = ref(null);
+const selected_recipe = ref(null);
 
 const handle_submit = async () => {
 
@@ -258,7 +262,7 @@ const handle_submit = async () => {
   const id = route.params.id;
 
   try {
-    if (!selected_video.value) {
+    if (!selected_recipe.value) {
 
       const res = await api.post(`/admin/chef/${id}/recipes`, data, {
         headers: {
@@ -267,7 +271,7 @@ const handle_submit = async () => {
       });
       closeModal();
     } else {
-      const res = await api.put(`/admin/chef/${id}/recipes/${selected_video.value}`, data, {
+      const res = await api.put(`/admin/chef/${id}/recipes/${selected_recipe.value}`, data, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -286,7 +290,7 @@ const handle_remove = async () => {
   const id = route.params.id;
 
   if (confirm("This will remove all the videos and recipe. Are you sure?")) {
-    const res = await api.delete(`/admin/chef/${id}/recipes/${selected_video.value}`);
+    const res = await api.delete(`/admin/chef/${id}/recipes/${selected_recipe.value}`);
     closeModal();
     get_recipes();
   }

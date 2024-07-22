@@ -60,6 +60,15 @@ const updateStreamUrl = () => {
   ])
 }
 
+const playback_url = ref("");
+const updatePlaybackUrl = () => {
+  console.log("updatePlaybackUrl");
+  save_settings([
+    {rooftop_playback_url: playback_url.value}
+  ])
+}
+
+
 const saveProgramList = () => {
   console.log("saveProgramList");
 
@@ -200,12 +209,13 @@ const get_movies = () => {
 
 onMounted(async () => {
 
-  const res = await get_settings(['rooftop_program_list', 'rooftop_next_program', 'rooftop_live_stream_url', 'languages']);
+  const res = await get_settings(['rooftop_program_list', 'rooftop_next_program', 'rooftop_live_stream_url','rooftop_playback_url', 'languages']);
 
   program_list.value = res.rooftop_program_list;
   selected_program.value = res.rooftop_next_program;
   stream_url.value = res.rooftop_live_stream_url;
   langs.value = res.languages;
+  playback_url.value = res.rooftop_playback_url;
 
 //   get movies
   get_movies()
@@ -268,6 +278,17 @@ onMounted(async () => {
                  type="text"
                  placeholder="https://youtube.com"/>
           <button @click="updateStreamUrl" class="btn btn-primary">Update</button>
+        </div>
+
+      </Card>
+
+      <Card title="Playback URL">
+
+        <div class="flex flex-col gap-5">
+          <input v-model="playback_url" class="form-input w-full h-[50px] border border-gray-200 px-4 py-3 rounded-md"
+                 type="text"
+                 placeholder="https://youtube.com"/>
+          <button @click="updatePlaybackUrl" class="btn btn-primary">Update</button>
         </div>
 
       </Card>

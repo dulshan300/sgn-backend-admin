@@ -77,8 +77,13 @@
           <label class="fg-label">URL</label>
           <input v-model="model.meta.url" class="form-input" type="text">
           <input-error :errors="error_bag" field="url"/>
-
         </div>
+
+        <div class="fg">
+          <label class="fg-label">Show Recipe (Select to show recipe on video list)</label>
+          <Toggle v-model:checked="model.meta.show_recipe"/>
+        </div>
+
 
       </div>
 
@@ -106,6 +111,7 @@ import LangSelect from "../components/LangSelect.vue";
 import api from "../Utils/axios.js";
 import {useRoute} from "vue-router";
 import Card from "../components/Card.vue";
+import Toggle from "../components/Toggle.vue";
 
 const error_bag = ref({});
 
@@ -130,7 +136,8 @@ const _defaultModal = {
   description: {en: ""},
   image: '',
   meta: {
-    url: ""
+    url: "",
+    show_recipe: false,
   },
   published: true
 }
@@ -167,6 +174,7 @@ const openModal = (id) => {
 const closeModal = () => {
   error_bag.value = {};
   show_add_chef.value = false;
+  selected_video.value = null;
   model.value = cloneObj(_defaultModal);
 
 };
@@ -197,6 +205,7 @@ const handle_submit = async () => {
   data.append("description", JSON.stringify(model.value.description));
   data.append("image", cover_image.value);
   data.append("published", model.value.published);
+  data.append("show_recipe", model.value.meta.show_recipe);
   data.append("url", model.value.meta.url);
 
   const id = route.params.id;
