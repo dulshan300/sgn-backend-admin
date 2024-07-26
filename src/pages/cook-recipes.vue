@@ -63,6 +63,12 @@
           <input-error :errors="error_bag" field="window_title"/>
         </div>
 
+        <div class="fg">
+          <label class="fg-label">Description</label>
+          <textarea v-model="model.description[lang]" class="form-input" ></textarea>
+          <input-error :errors="error_bag" field="description"/>
+        </div>
+
 
         <div class="fg">
           <label class="fg-label">Cover Image</label>
@@ -243,13 +249,14 @@ const handle_submit = async () => {
   const data = new FormData();
   data.append("title", JSON.stringify(model.value.title));
   data.append("window_title", JSON.stringify(model.value.meta.window_title));
+  data.append("description", JSON.stringify(model.value.description));
   data.append("image", cover_image.value);
   data.append("pdf", pdf.value);
   data.append("published", model.value.published);
   data.append("introduction", JSON.stringify(model.value.meta.introduction));
   data.append("ingredients", JSON.stringify(model.value.meta.ingredients));
   data.append("method", JSON.stringify(model.value.meta.method));
-  data.append("video", model.value.meta.video);
+  data.append("video", model.value.meta.video??"");
 
   const id = route.params.id;
 
@@ -261,7 +268,7 @@ const handle_submit = async () => {
           "Content-Type": "multipart/form-data"
         }
       });
-      closeModal();
+      // closeModal();
     } else {
       const res = await api.put(`/admin/chef/${id}/recipes/${selected_recipe.value}`, data, {
         headers: {
