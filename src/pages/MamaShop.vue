@@ -2,9 +2,16 @@
 
 import Card from "../components/Card.vue";
 import {RiDeleteBinLine} from "@remixicon/vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import api from "../Utils/axios.js";
-import {cloneObj, get_settings, save_settings, validation_errors_process, wss_trigger_event} from "../Utils/helper.js";
+import {
+  cloneObj,
+  get_settings,
+  save_settings,
+  toolbarOptions,
+  validation_errors_process,
+  wss_trigger_event
+} from "../Utils/helper.js";
 import {RiAddLargeLine} from '@remixicon/vue';
 import Modal from "../components/Modal.vue";
 
@@ -13,6 +20,8 @@ import InputError from "../components/inputError.vue";
 
 import noImage from '/no_image.png';
 import LangSelect from "../components/LangSelect.vue";
+import {QuillEditor} from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 
 const langs = ref([]);
@@ -158,10 +167,25 @@ onMounted(async () => {
 })
 
 
+const description_editor = ref(null);
+
+const editorReady = () => {
+
+  description_editor.value.setHTML(dealModal.value.description[selected_lang.value] ?? "");
+}
+const editorContentChanged = () => {
+  dealModal.value.description[selected_lang.value] = description_editor.value.getHTML();
+}
+
+watch(selected_lang, () => {
+  description_editor.value.setHTML(dealModal.value.description[selected_lang.value] ?? "");
+});
+
+
+
 </script>
 
 <template>
-
 
 
   <div class="flex gap-5 mt-6 flex-col md:flex-row">
@@ -243,8 +267,10 @@ onMounted(async () => {
         <!-- Description -->
         <div class="mb-4">
           <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
-          <textarea v-model="dealModal.description[selected_lang]" id="description" name="description" rows="4"
-                    class="textarea"></textarea>
+          <QuillEditor ref="description_editor" :toolbar="toolbarOptions" @ready="editorReady"
+                       @update:content="editorContentChanged"
+                       theme="snow"/>
+
           <input-error :errors="error_bag" field="description"/>
         </div>
 

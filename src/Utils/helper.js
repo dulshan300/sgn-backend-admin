@@ -60,3 +60,19 @@ export const cloneObj = (obj) => {
 export const img_src = (img) => {
     return import.meta.env.VITE_API_HOST + img;
 }
+
+export const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],
+  ['blockquote'],
+  ['link'],
+  [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
+  [{'script': 'sub'}, {'script': 'super'}],
+  [{'indent': '-1'}, {'indent': '+1'}],
+
+  [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+  [{'color': []}, {'background': []}],
+  [{'font': []}],
+  [{'align': []}],
+  ['clean','html-view']
+];

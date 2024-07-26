@@ -63,9 +63,16 @@
       <card>
 
         <span class="card-title">Scary Story</span>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3 mb-5">
           <label>Content Available</label>
           <Toggle v-model:checked="ss_is_visible"/>
+
+        </div>
+
+        <span class="card-title">Feedback Button</span>
+        <div class="grid grid-cols-2 gap-3">
+          <label>Visibility</label>
+          <Toggle v-model:checked="feedback_button"/>
 
         </div>
 
@@ -164,9 +171,17 @@ watch(ss_is_visible, () => {
   ])
 });
 
+const feedback_button = ref(false);
+watch(feedback_button, () => {
+  console.log(feedback_button.value);
+  save_settings([
+    {feedback_button: feedback_button.value}
+  ])
+});
+
 onMounted(async () => {
 
-  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon','pr_is_visible','ss_is_visible']);
+  const res = await get_settings(['languages','fc_browse_videos','fc_coming_soon','rf_coming_soon','pr_is_visible','ss_is_visible','feedback_button']);
 
   if (res.languages) {
     multi_language.value = res.languages
@@ -174,6 +189,7 @@ onMounted(async () => {
     fc_browse_videos.value = res.fc_browse_videos
     rf_coming_soon.value = res.rf_coming_soon
     pr_is_visible.value = res.pr_is_visible
+    feedback_button.value = res.feedback_button
   }
 
 })

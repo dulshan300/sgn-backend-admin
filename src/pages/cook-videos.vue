@@ -59,11 +59,25 @@
         </div>
 
         <div class="fg">
+          <label class="fg-label">Dish Title</label>
+          <input v-model="model.meta.dish_title[lang]" class="form-input" type="text">
+          <input-error :errors="error_bag" field="dish_title"/>
+        </div>
+
+        <div class="fg">
           <label class="fg-label">Description</label>
           <QuillEditor ref="description_editor" :toolbar="toolbarOptions" @ready="editor_ready"
                        @update:content="content_chagned"
                        theme="snow"/>
           <input-error :errors="error_bag" field="description"/>
+        </div>
+
+        <div class="fg">
+          <label class="fg-label">Recipe</label>
+          <QuillEditor ref="recipe_editor" :toolbar="toolbarOptions" @ready="recipe_editor_ready"
+                       @update:content="recipe_content_chagned"
+                       theme="snow"/>
+          <input-error :errors="error_bag" field="recipe"/>
         </div>
 
         <div class="fg">
@@ -138,6 +152,8 @@ const _defaultModal = {
   meta: {
     url: "",
     show_recipe: false,
+    recipe:{en:""},
+    dish_title:{en:""}
   },
   published: true
 }
@@ -150,6 +166,8 @@ const show_add_chef = ref(false);
 
 const description_editor = ref(null);
 
+const recipe_editor = ref(null);
+
 const lang = ref("en");
 
 watch(lang, () => {
@@ -159,6 +177,23 @@ watch(lang, () => {
 const editor_ready = () => {
   description_editor.value.setHTML(model.value.description[lang.value] ?? "");
 }
+
+const content_chagned = (delta, oldDelta, source) => {
+  model.value.description[lang.value] = description_editor.value.getHTML();
+}
+
+watch(lang, () => {
+  recipe_editor.value.setHTML(model.value.meta.recipe[lang.value] ?? "");
+});
+
+const recipe_editor_ready = () => {
+  recipe_editor.value.setHTML(model.value.meta.recipe[lang.value] ?? "");
+}
+
+const recipe_content_chagned = (delta, oldDelta, source) => {
+  model.value.meta.recipe[lang.value] = recipe_editor.value.getHTML();
+}
+
 
 const openModal = (id) => {
 
@@ -190,11 +225,6 @@ const handleImage = (e) => {
   }
 }
 
-const content_chagned = (delta, oldDelta, source) => {
-  // console.log(description_editor.value.getHTML());
-
-  model.value.description[lang.value] = description_editor.value.getHTML();
-}
 
 const selected_video = ref(null);
 
@@ -202,7 +232,9 @@ const handle_submit = async () => {
 
   const data = new FormData();
   data.append("title", JSON.stringify(model.value.title));
+  data.append("dish_title", JSON.stringify(model.value.meta.dish_title));
   data.append("description", JSON.stringify(model.value.description));
+  data.append("recipe", JSON.stringify(model.value.meta.recipe));
   data.append("image", cover_image.value);
   data.append("published", model.value.published);
   data.append("show_recipe", model.value.meta.show_recipe);

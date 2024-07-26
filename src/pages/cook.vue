@@ -101,7 +101,16 @@
         </div>
 
         <div class="fg">
-          <label class="fg-label">Description</label>
+          <label class="fg-label">Description Summery (For Video)</label>
+          <QuillEditor ref="description_summery_editor" :toolbar="toolbarOptions" @ready="summery_editor_ready"
+                       @update:content="summery_content_chagned"
+                       theme="snow"/>
+
+          <input-error :errors="error_bag" field="description_summery"/>
+        </div>
+
+        <div class="fg">
+          <label class="fg-label">Description Full (For Receipe)</label>
           <QuillEditor ref="description_editor" :toolbar="toolbarOptions" @ready="editor_ready"
                        @update:content="content_chagned"
                        theme="snow"/>
@@ -161,6 +170,9 @@ const toolbarOptions = ref([
 const _defaultModal = {
   title: {en: ""},
   description: {en: ""},
+  meta: {
+    summery: {en: ""},
+  },
   image: '',
   published: true
 }
@@ -170,6 +182,7 @@ const model = ref(cloneObj(_defaultModal));
 const show_add_chef = ref(false);
 
 const description_editor = ref(null);
+const description_summery_editor = ref(null);
 
 const lang = ref("en");
 
@@ -179,6 +192,14 @@ watch(lang, () => {
 
 const editor_ready = () => {
   description_editor.value.setHTML(model.value.description[lang.value] ?? "");
+}
+
+watch(lang, () => {
+  description_summery_editor.value.setHTML(model.value.meta.summery[lang.value] ?? "");
+});
+
+const summery_editor_ready = () => {
+  description_summery_editor.value.setHTML(model.value.meta.summery[lang.value] ?? "");
 }
 
 const openModal = (id) => {
@@ -217,6 +238,12 @@ const content_chagned = (delta, oldDelta, source) => {
   model.value.description[lang.value] = description_editor.value.getHTML();
 }
 
+const summery_content_chagned = (delta, oldDelta, source) => {
+  // console.log(description_editor.value.getHTML());
+
+  model.value.meta.summery[lang.value] = description_summery_editor.value.getHTML();
+}
+
 const selected_chef = ref(null);
 
 const handle_submit = async () => {
@@ -224,6 +251,7 @@ const handle_submit = async () => {
   const data = new FormData();
   data.append("title", JSON.stringify(model.value.title));
   data.append("description", JSON.stringify(model.value.description));
+  data.append("description_summery", JSON.stringify(model.value.meta.summery));
   data.append("image", cover_image.value);
   data.append("published", model.value.published);
 

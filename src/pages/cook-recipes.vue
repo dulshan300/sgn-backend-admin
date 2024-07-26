@@ -128,7 +128,7 @@ import {onMounted, ref, watch} from "vue";
 import Modal from "../components/Modal.vue";
 import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import {cloneObj, img_src, validation_errors_process} from "../Utils/helper.js";
+import {cloneObj, img_src, toolbarOptions, validation_errors_process} from "../Utils/helper.js";
 import InputError from "../components/inputError.vue";
 import LangSelect from "../components/LangSelect.vue";
 import api from "../Utils/axios.js";
@@ -136,22 +136,6 @@ import {useRoute} from "vue-router";
 import Card from "../components/Card.vue";
 
 const error_bag = ref({});
-
-const toolbarOptions = ref([
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote', 'code-block'],
-  ['link'],
-  [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
-  [{'script': 'sub'}, {'script': 'super'}],
-  [{'indent': '-1'}, {'indent': '+1'}],
-
-  [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-  [{'color': []}, {'background': []}],
-  [{'font': []}],
-  [{'align': []}],
-  ['clean']
-]);
 
 const _defaultModal = {
   title: {en: ""},
