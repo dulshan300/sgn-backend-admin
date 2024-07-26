@@ -53,9 +53,14 @@
 
       <div class="flex flex-col gap-4">
         <div class="fg">
-          <label class="fg-label">Name</label>
+          <label class="fg-label">Main Title</label>
           <input v-model="model.title[lang]" class="form-input" type="text">
           <input-error :errors="error_bag" field="title"/>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Window Title</label>
+          <input v-model="model.meta.window_title[lang]" class="form-input" type="text">
+          <input-error :errors="error_bag" field="window_title"/>
         </div>
 
 
@@ -144,7 +149,9 @@ const _defaultModal = {
   meta: {
     introduction: {en: ""},
     ingredients: {en: ""},
-    method: {en: ""}
+    method: {en: ""},
+    window_title: {en: ""},
+
   },
   published: true
 }
@@ -235,6 +242,7 @@ const handle_submit = async () => {
 
   const data = new FormData();
   data.append("title", JSON.stringify(model.value.title));
+  data.append("window_title", JSON.stringify(model.value.meta.window_title));
   data.append("image", cover_image.value);
   data.append("pdf", pdf.value);
   data.append("published", model.value.published);
