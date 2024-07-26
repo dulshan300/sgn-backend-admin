@@ -88,6 +88,16 @@
         </div>
 
         <div class="fg">
+          <label class="fg-label">PDF</label>
+          <input @change="handlePdf" class="form-input" type="file">
+          <input-error :errors="error_bag" field="pdf"/>
+
+          <a v-if="selected_video && model.meta.pdf"
+             class="text-sm text-blue-500 bg-blue-100 p-2 rounded text-center"
+             :href="img_src(model.meta.pdf)" target="_blank">View PDF</a>
+        </div>
+
+        <div class="fg">
           <label class="fg-label">URL</label>
           <input v-model="model.meta.url" class="form-input" type="text">
           <input-error :errors="error_bag" field="url"/>
@@ -152,8 +162,9 @@ const _defaultModal = {
   meta: {
     url: "",
     show_recipe: false,
-    recipe:{en:""},
-    dish_title:{en:""}
+    recipe: {en: ""},
+    dish_title: {en: ""},
+    pdf: ""
   },
   published: true
 }
@@ -225,6 +236,17 @@ const handleImage = (e) => {
   }
 }
 
+const pdf = ref(null)
+
+const handlePdf = (e) => {
+  const files = e.target.files;
+
+  if (files.length > 0) {
+    pdf.value = files[0];
+
+  }
+}
+
 
 const selected_video = ref(null);
 
@@ -236,6 +258,7 @@ const handle_submit = async () => {
   data.append("description", JSON.stringify(model.value.description));
   data.append("recipe", JSON.stringify(model.value.meta.recipe));
   data.append("image", cover_image.value);
+  data.append("pdf", pdf.value);
   data.append("published", model.value.published);
   data.append("show_recipe", model.value.meta.show_recipe);
   data.append("url", model.value.meta.url);
