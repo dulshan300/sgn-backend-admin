@@ -3,10 +3,16 @@ import {RiDashboard2Line, RiSettings2Line, RiWindowFill} from "@remixicon/vue";
 export default [
     {
         path: '/',
-        name: 'home',
-        meta: {title: "Dashboard", icon: RiDashboard2Line},
-        component: () => import('../pages/Home.vue')
+        name: 'settings',
+        meta: {title: "Settings", icon: RiSettings2Line},
+        component: () => import('../pages/Settings.vue')
     },
+    // {
+    //     path: '/',
+    //     name: 'home',
+    //     meta: {title: "Dashboard", icon: RiDashboard2Line},
+    //     component: () => import('../pages/Home.vue')
+    // },
     {
         path: '/chat-approval',
         name: 'chat-approval',
@@ -80,11 +86,6 @@ export default [
         component: () => import('../pages/FitnessCorner.vue')
     },
 
-    {
-        path: '/settings',
-        name: 'settings',
-        meta: {title: "Settings", icon: RiSettings2Line},
-        component: () => import('../pages/Settings.vue')
-    },
+
 
 ]
