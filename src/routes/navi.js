@@ -10,7 +10,7 @@ import { RiDashboard2Line, RiSettings2Line, RiWindowFill } from "@remixicon/vue"
 export default [
     {
         path: '/',
-        name: 'settings',
+        name: 'home',
         meta: { title: "Settings", icon: RiSettings2Line },
         component: () => import('../pages/Settings.vue')
     },
