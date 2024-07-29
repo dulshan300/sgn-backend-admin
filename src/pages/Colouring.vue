@@ -46,6 +46,12 @@
         </div>
 
         <div class="fg mt-5">
+          <label>Logo</label>
+          <input ref="in_image" @change="handle_logo" type="file" accept="image/*" class="form-input">
+          <input-error :errors="error_bag" field="logo"/>
+        </div>
+
+        <div class="fg mt-5">
           <label>PDF</label>
           <input ref="in_pdf" @change="handle_pdf" type="file" accept="application/pdf" class="form-input">
           <input-error :errors="error_bag" field="pdf"/>
@@ -100,6 +106,7 @@ const default_modal = {
 
 const tp_file = ref(null);
 const pdf_file = ref(null);
+const logo_file = ref(null);
 const in_image = ref(null);
 const in_pdf = ref(null);
 
@@ -151,6 +158,11 @@ const handle_pdf = (e) => {
   pdf_file.value = file;
 }
 
+const handle_logo = (e) => {
+  const file = e.target.files[0];
+  logo_file.value = file;
+}
+
 const templates = ref([]);
 const get_templates = async () => {
   const res = await api.get("/admin/coloring");
@@ -164,6 +176,7 @@ const handle_submission = () => {
   fd.append('published', tpModel.value.published);
   fd.append('image', tp_file.value);
   fd.append('pdf', pdf_file.value);
+  fd.append('logo', logo_file.value);
 
   api.post("/admin/coloring", fd, {
     headers: {
