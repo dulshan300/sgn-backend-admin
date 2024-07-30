@@ -102,10 +102,15 @@
           <input v-model="model.meta.url" class="form-input" type="text">
           <input-error :errors="error_bag" field="url"/>
         </div>
-
+<!-- 
         <div class="fg">
           <label class="fg-label">Show Recipe (Select to show recipe on video list)</label>
           <Toggle v-model:checked="model.meta.show_recipe"/>
+        </div> -->
+
+        <div class="fg mt-5">
+          <label class="fg-label">Published <Toggle v-model:checked="model.published"/></label>
+          
         </div>
 
 

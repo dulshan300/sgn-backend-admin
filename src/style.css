@@ -67,6 +67,10 @@
     .fg{
         @apply flex flex-col gap-2 w-full
     }
+
+    .fg .fg-label{
+        @apply font-medium inline-flex items-center gap-3
+    }
 }
 
 @layer utilities {
