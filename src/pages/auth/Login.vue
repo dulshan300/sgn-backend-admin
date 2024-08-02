@@ -31,16 +31,7 @@
         </div>
         <div class="mb-6">
           <button :disabled="isProcessing" type="submit" class="btn btn-primary">Sign in</button>
-        </div>
-
-        <p class="text-sm text-center text-gray-400">Don't have an account yet?
-          <router-link
-              :to="{ name: 'register' }"
-              class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500">Sign
-            up
-          </router-link>
-          .
-        </p>
+        </div>        
       </form>
     </div>
   </div>

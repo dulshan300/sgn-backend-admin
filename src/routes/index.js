@@ -26,12 +26,7 @@ const routes = [
                 path: 'forgot-password',
                 name: 'forgot-password',
                 component: () => import('../pages/auth/ForgotPassword.vue')
-            },
-            {
-                path: 'register',
-                name: 'register',
-                component: () => import('../pages/auth/Register.vue')
-            }
+            },            
 
         ]
     },
@@ -54,3 +49,11 @@ router.beforeEach(async (to, from, next) => {
 })
 
 export default router
+
+
+// commented paths
+// {
+//     path: 'register',
+//     name: 'register',
+//     component: () => import('../pages/auth/Register.vue')
+// }
