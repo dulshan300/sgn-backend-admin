@@ -12,8 +12,8 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
 
-        <div @click="openEditModal(i)" v-for="i in templates" :style="{backgroundImage: `url(${img_base+i.image})`}"
-             class="w-full h-32 bg-gray-100 bg-contain bg-no-repeat bg-center cursor-pointer relative">
+        <div @click="openEditModal(i)" v-for="i in templates" :style="{ backgroundImage: `url(${img_base + i.image})` }"
+          class="w-full h-32 bg-gray-100 bg-contain bg-no-repeat bg-center cursor-pointer relative">
 
           <div v-if="i.published" class="bg-green-600 px-2 py-1 text-white text-xs absolute top-0 right-0">Published
           </div>
@@ -29,32 +29,49 @@
 
     </card>
 
+    <card title="Gallery" class="mt-10">
+      <div v-if="gallery.length == 0" class="flex justify-center text-sm text-gray-400">No gallery data</div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
+        <div class="" v-for="i in gallery">
+          <img :src="img_src(i.image)" alt="">
+          <div class="controls flex justify-around bg-black py-1">
+            <a :href="img_src(i.image)" target="_blank">
+              <RiExternalLinkLine class="w-6 h-6 text-blue-600" />
+            </a>
+            <button @click="remove(i._id)">
+              <RiDeleteBin2Line class="w-6 h-6 text-red-600" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </card>
+
     <Modal :is-open="is_open" @close="closeModal" title="Add/Update Template">
       <form @submit.prevent="handle_submission">
         <div class="flex items-center gap-2 justify-center">
-          <Toggle v-model:checked="tpModel.published"/>
+          <Toggle v-model:checked="tpModel.published" />
           Published
         </div>
 
-        <div v-if="tpModel.image" class="template mt-5 mx-auto"
-             :style="{backgroundImage: `url(${tpModel.image})`}"></div>
+        <div v-if="tpModel.image" class="template mt-5 mx-auto" :style="{ backgroundImage: `url(${tpModel.image})` }">
+        </div>
 
         <div class="fg mt-5">
           <label>Template</label>
           <input ref="in_image" @change="handle_template" type="file" accept="image/svg+xml" class="form-input">
-          <input-error :errors="error_bag" field="image"/>
+          <input-error :errors="error_bag" field="image" />
         </div>
 
         <div class="fg mt-5">
           <label>Logo</label>
           <input ref="in_image" @change="handle_logo" type="file" accept="image/*" class="form-input">
-          <input-error :errors="error_bag" field="logo"/>
+          <input-error :errors="error_bag" field="logo" />
         </div>
 
         <div class="fg mt-5">
           <label>PDF</label>
           <input ref="in_pdf" @change="handle_pdf" type="file" accept="application/pdf" class="form-input">
-          <input-error :errors="error_bag" field="pdf"/>
+          <input-error :errors="error_bag" field="pdf" />
         </div>
 
 
@@ -66,7 +83,7 @@
 
     <Modal :is-open="is_edit_open" @close="closeEditModal" title="Edit Template">
       <div class="flex items-center gap-2 justify-center">
-        <Toggle v-model:checked="selected_temp.published"/>
+        <Toggle v-model:checked="selected_temp.published" />
         Published
       </div>
 
@@ -85,18 +102,19 @@
 
 import Card from "../components/Card.vue";
 import noImage from '/no_image.png';
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import Modal from "../components/Modal.vue";
 import Toggle from "../components/Toggle.vue";
 import InputError from "../components/inputError.vue";
 import api from "../Utils/axios.js";
-import {cloneObj, validation_errors_process} from "../Utils/helper.js";
+import { cloneObj, img_src, validation_errors_process } from "../Utils/helper.js";
+import { RiDeleteBin2Line, RiExternalLinkLine } from "@remixicon/vue";
 
 const error_bag = ref({});
 const img_base = import.meta.env.VITE_API_HOST;
 
 const default_modal = {
-  title: {en: `tp_${Date.now()}`},
+  title: { en: `tp_${Date.now()}` },
   image: '',
   meta: {
     pdf: "",
@@ -186,9 +204,9 @@ const handle_submission = () => {
     get_templates();
     clearModal();
   })
-      .catch(err => {
-        error_bag.value = validation_errors_process(err)
-      })
+    .catch(err => {
+      error_bag.value = validation_errors_process(err)
+    })
 
 }
 
@@ -207,29 +225,48 @@ const closeEditModal = () => {
 
 const remvoeTemplate = () => {
   api.delete(`/admin/coloring/${selected_temp.value._id}`)
-      .then(() => {
-        get_templates();
-        closeEditModal();
-      })
+    .then(() => {
+      get_templates();
+      closeEditModal();
+    })
 }
 const updateTemplate = () => {
 
   api.put(`/admin/coloring/${selected_temp.value._id}`, {
     published: selected_temp.value.published
   })
+    .then(() => {
+      get_templates();
+    })
+}
+
+const gallery = ref([]);
+
+const get_gallery = async () => {
+  const res = await api.get("/client/coloring/gallery");
+  console.log(res.data);
+  gallery.value = res.data;
+}
+
+
+const remove = async (id) => {
+  let res = confirm('Are you sure?');
+  if (res) {
+    await api.delete(`/admin/coloring/gallery/${id}`)
       .then(() => {
-        get_templates();
+        get_gallery();
       })
+  }
 }
 
 onMounted(async () => {
   await get_templates();
+  await get_gallery();
 })
 
 </script>
 
 <style lang="scss" scoped>
-
 .template {
   width: 300px;
   aspect-ratio: 16/9;
@@ -237,5 +274,4 @@ onMounted(async () => {
   background-size: contain;
   background-position: center;
 }
-
 </style>
