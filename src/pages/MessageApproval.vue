@@ -103,7 +103,7 @@
                   <td
                     class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
 
-                    <div v-if="chat_selected_state === 0" class="flex gap-5">
+                    <div v-if="chat_selected_state === 0" class="flex gap-5 items-center">
                       <button @click="approved(chat._id)">
                         <RiCheckboxCircleLine class="w-6 h-6 text-green-600" />
                       </button>
@@ -113,7 +113,22 @@
                       </button>
                     </div>
 
-                    <div v-if="chat_selected_state === 1 || chat_selected_state === 2" class="flex gap-5">
+                    <div v-if="chat_selected_state === 1" class="flex gap-5 items-center">
+
+                      <button @click="rejected(chat._id)">
+                        <RiCloseCircleLine class="w-6 h-6 text-red-600" />
+                      </button>
+
+                      <button @click="_delete(chat._id)">
+                        <RiDeleteBin2Line class="w-6 h-6 text-red-600" />
+                      </button>
+                    </div>
+
+                    <div v-if="chat_selected_state === 2" class="flex gap-5 items-center">
+
+                      <button @click="approved(chat._id)">
+                        <RiCheckboxCircleLine class="w-6 h-6 text-green-600" />
+                      </button>
 
                       <button @click="_delete(chat._id)">
                         <RiDeleteBin2Line class="w-6 h-6 text-red-600" />
