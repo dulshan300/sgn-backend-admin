@@ -70,10 +70,15 @@
         </div>
 
         <span class="card-title">Feedback Button</span>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3 mb-5">
           <label>Visibility</label>
           <Toggle v-model:checked="feedback_button"/>
+        </div>
 
+        <span class="card-title">Firworks</span>
+        <div class="grid grid-cols-2 gap-3">
+          <label>Enable</label>
+          <Toggle v-model:checked="show_fireworks"/>
         </div>
 
       </card>
@@ -176,6 +181,14 @@ watch(feedback_button, () => {
   console.log(feedback_button.value);
   save_settings([
     {feedback_button: feedback_button.value}
+  ])
+});
+
+const show_fireworks = ref(false);
+watch(show_fireworks, () => {
+  console.log(show_fireworks.value);
+  save_settings([
+    {show_fireworks: show_fireworks.value}
   ])
 });
 
