@@ -94,10 +94,10 @@
                 <Transition>
                     <div v-if="dropdownOpen"
                         class="absolute right-0 z-10 w-48 mt-2 overflow-hidden bg-white rounded-md shadow-xl">
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</a>
+                        <button @click="show_update_password = true"
+                            class="w-full block px-4 py-2 text-sm text-left text-gray-700 hover:bg-indigo-600 hover:text-white">Update
+                            Password</button>
+
                         <button @click="authStore.logout"
                             class="w-full block px-4 py-2 text-sm text-left text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</button>
                     </div>
@@ -105,6 +105,40 @@
                 </Transition>
             </div>
         </div>
+
+        <Modal title="Update Password" :isOpen="show_update_password" @close="show_update_password = false">
+
+            <form @submit.prevent="handleUpdatePassword" method="post">
+                <div class="flex flex-col gap-4">
+                    <div class="fg">
+                        <label class="label">
+                            <span class="label-text">Current password</span>
+                        </label>
+                        <PasswordInput v-model="update_passwrod_model.current_password" />
+                        <InputError :errors="error_bag" field="current_password" />
+                    </div>
+                    <div class="fg">
+                        <label class="label">
+                            <span class="label-text">New password</span>
+                        </label>
+                        <PasswordInput v-model="update_passwrod_model.new_password" />
+                        <InputError :errors="error_bag" field="new_password" />
+                    </div>
+                    <div class="fg">
+                        <label class="label">
+                            <span class="label-text">Confirm password</span>
+                        </label>
+                        <PasswordInput v-model="update_passwrod_model.confirm_password" />
+                        <InputError :errors="error_bag" field="confirm_password" />
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <button class="btn btn-primary" @click="updatePassword">Update Password</button>
+                </div>
+            </form>
+
+        </Modal>
     </header>
 </template>
 
@@ -114,14 +148,52 @@ import { onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useAuthStore } from '../stores/AuthStore';
 import Toggle from '../components/Toggle.vue';
 import api from '../Utils/axios';
+import Modal from '../components/Modal.vue';
+import InputError from '../components/inputError.vue';
+import PasswordInput from '../components/PasswordInput.vue';
+import { validation_errors_process } from '../Utils/helper';
+import { useToast } from 'vue-toastification';
 
 const notificationOpen = ref(false)
 const dropdownOpen = ref(false)
 
+const error_bag = ref({});
+
+const update_passwrod_model = ref({
+    current_password: '',
+    new_password: '',
+    confirm_password: ''
+})
+
 const emit = defineEmits(['sidebarOpen'])
 const authStore = useAuthStore();
+const toast = useToast();
 
 const event_completed = ref(false)
+
+const show_update_password = ref(true)
+
+const handleUpdatePassword = async () => {
+    error_bag.value = {}
+    try {
+        const res = await api.post('/auth/update-password', update_passwrod_model.value)
+
+        if (res.status === 200) {
+            toast.success(res.data.message)
+            show_update_password.value = false
+            update_passwrod_model.value = {
+                current_password: '',
+                new_password: '',
+                confirm_password: ''
+            }
+            // show_update_password.value = false
+        }
+
+
+    } catch (error) {
+        error_bag.value = validation_errors_process(error)
+    }
+}
 
 onBeforeMount(() => {
     const data = {
@@ -129,14 +201,14 @@ onBeforeMount(() => {
     }
 
     api.post('/admin/settings', data)
-    .then(res => {
+        .then(res => {
 
-        // console.log(res);
-        if (res.data.event_completed) {
-            console.log(res.data.event_completed);
-            event_completed.value = true
-        }
-    })
+            // console.log(res);
+            if (res.data.event_completed) {
+                console.log(res.data.event_completed);
+                event_completed.value = true
+            }
+        })
 
 })
 
