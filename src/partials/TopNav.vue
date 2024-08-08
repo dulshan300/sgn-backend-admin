@@ -170,7 +170,7 @@ const toast = useToast();
 
 const event_completed = ref(false)
 
-const show_update_password = ref(true)
+const show_update_password = ref(false)
 
 const handleUpdatePassword = async () => {
     error_bag.value = {}
